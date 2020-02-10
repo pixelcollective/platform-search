@@ -1,6 +1,6 @@
 import algoliasearch from 'algoliasearch'
 import instantsearch from 'instantsearch.js'
-import { searchBox, refinementList, hits } from 'instantsearch.js/es/widgets'
+import { searchBox, hits, poweredBy, configure, panel } from 'instantsearch.js/es/widgets'
 
 /**
  * Build Algolia search
@@ -15,40 +15,68 @@ const search = instantsearch({
     helper.state.query
       && helper.search();
   },
+  stalledSearchDelay: 500,
+  routing: true,
 });
 
 const widgets = [
-  refinementList({
-    container: '#tagsbox',
-    attribute: 'tags',
-  }),
   searchBox({
     container: '#searchbox',
     limit: 5,
-    showMore: true,
+    placeholder: 'Search site content',
+    showLoadingIndicator: true,
+    showSubmit: true,
   }),
   hits({
     container: '#hitsbox',
     templates: {
       item: `
         <article>
-          <a href="{{ url }}">
-            <strong>
+          {{#image}}
+            <div class="image-container">
+              <a href="{{ url }}">
+                <img src="{{ image }}" />
+              </a>
+            </div>
+          {{/image}}
+
+          <div>
+            <a href="{{ url }}">
+              <strong>
+                {{#helpers.highlight}}
+                  {
+                    "attribute": "title",
+                    "highlightedTagName": "mark"
+                  }
+                {{/helpers.highlight}}
+              </strong>
+            </a>
+
+            <div>
               {{#helpers.highlight}}
-                { "attribute": "title", "highlightedTagName": "mark" }
+                {
+                  "attribute": "excerpt",
+                  "highlightedTagName": "mark"
+                }
               {{/helpers.highlight}}
-            </strong>
-          </a>
-          {{#content}}
-            <p>{{#helpers.snippet}}{ "attribute": "content", "highlightedTagName": "mark" }{{/helpers.snippet}}</p>
-          {{/content}}
+            </div>
+          </div>
         </article>
-      `
+      `,
+      empty: `No results for <q>{{ query }}</q>`,
     },
   }),
-]
+  poweredBy({
+    container: '#poweredbybox',
+  }),
+  configure({
+    attributesToSnippet: [
+      'content',
+    ],
+  }),
+];
 
-search.addWidgets(widgets);
-
-document.querySelector('#algolia-search')
-  && search.start();
+document.querySelector('#algolia-search') && (() => {
+  search.addWidgets(widgets)
+    && search.start();
+})();

@@ -97,6 +97,7 @@ class AlgoliaIntegration
             'content' => strip_tags($post->post_content),
             'tags' => $tags,
             'url' => get_post_permalink($post->ID),
+            'image' => get_the_post_thumbnail_url($post->ID),
         ];
 
         // Split the records on the `post_content` attribute

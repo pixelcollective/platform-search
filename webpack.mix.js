@@ -11,5 +11,7 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('./resources/assets/scripts/client.js', 'dist/');
+mix.js('./resources/assets/scripts/client.js', 'dist/')
+  .extract();
+
 mix.sass('./resources/assets/styles/client.scss', 'dist/');

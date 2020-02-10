@@ -1,1 +1,24 @@
-@import '~instantsearch.css/themes/algolia.css'
+@import '~instantsearch.css/themes/algolia.css';
+
+.ais-Hits-item,
+.ais-InfiniteHits-item,
+.ais-InfiniteResults-item,
+.ais-Results-item {
+  width: 100%;
+}
+
+#algolia-search > aside {
+  margin: 1em 0;
+}
+
+.ais-Hits-item {
+  article {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .image-container {
+    width: 33%;
+    margin-right: 1.5rem;
+  }
+}
