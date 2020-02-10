@@ -1,0 +1,17 @@
+{
+    "name": "tiny-pixel/platform-search",
+    "authors": [
+        {
+            "name": "Kelly Mears",
+            "email": "developers@tinypixel.dev"
+        }
+    ],
+    "require": {
+        "algolia/algoliasearch-client-php": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "TinyPixel\\Platform\\Search\\": ["./", "./src"]
+        }
+    }
+}
